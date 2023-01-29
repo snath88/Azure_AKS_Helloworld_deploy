@@ -8,7 +8,7 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: HelloWorld
+      app: HelloWorld  #this level will match line number 15 label
   template:
     metadata:
       labels:
