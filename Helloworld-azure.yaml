@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: HelloWorldDeploy
+  name: HelloWorldDeploy.com
   labels:
-    app: HelloWorldApp
+    app: HelloWorld-App1
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: HelloWorld  #this level will match line number 15 label
+      app: HelloWorld-App1
   template:
     metadata:
       labels:
-        app: HelloWorld
+        app: HelloWorldDeploy.com
     spec:
       containers:
-        - name: HelloWorld
+        - name: HelloWorld-App1
           image: nath2023.azurecr.io/hello-world:latest 
           ports:
             - containerPort: 8501
@@ -29,4 +29,4 @@ spec:
   ports:
   - port: 8501
   selector:
-    app: HelloWorld
+    app: HelloWorld-App1
