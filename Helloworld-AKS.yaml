@@ -1,33 +1,50 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-hello-deployment
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: my-hello-app
-  template:
-    metadata:
-      labels:
-        app: my-hello-appp
-    spec:
-      containers:
-      - name: hello-world
-        image: nath2023.azurecr.io/hello-world:latest
-        ports:
-        - containerPort: 5000
-# service type loadbalancer       
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-hello-app-svc
-spec:
-  selector:
-    app: my-hello-app
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
-  type: LoadBalancer
+ - apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: default-1675012998525
+  spec:
+    finalizers:
+      - kubernetes
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: hello-world
+    namespace: default-1675012998525
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        app: hello-world
+    template:
+      metadata:
+        labels:
+          app: hello-world
+      spec:
+        nodeSelector:
+          kubernetes.io/os: linux
+        containers:
+          - name: hello-world
+            image: nath2023.azurecr.io/hello-world:latest
+            ports:
+              - containerPort: 8051
+            resources:
+              requests:
+                cpu: '0'
+                memory: '0'
+              limits:
+                cpu: '256'
+                memory: 11400G
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: hello-world-service
+    namespace: default-1675012998525
+  spec:
+    type: LoadBalancer
+    ports:
+      - targetPort: 8051
+        name: port80
+        port: 8051
+        protocol: TCP
+    selector:
+      app: hello-world
