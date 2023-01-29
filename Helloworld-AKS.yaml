@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-hello-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-hello-app
+  template:
+    metadata:
+      labels:
+        app: my-hello-appp
+    spec:
+      containers:
+      - name: hello-world
+        image: nath2023.azurecr.io/hello-world:latest
+        ports:
+        - containerPort: 5000
+# service type loadbalancer       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-hello-app-svc
+spec:
+  selector:
+    app: my-hello-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: LoadBalancer
